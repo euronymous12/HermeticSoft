@@ -92,8 +92,7 @@ namespace HS_Aquiles_ERP
                     query += "    @p" + i.ToString() + " ,\n";
                 else
                     query += "    @p" + i.ToString() + " \n)";
-                SqlParameter p = new SqlParameter("@p" + i.ToString(), values[i]);
-                p.Value = values[i];
+                SqlParameter p = new SqlParameter("@p" + i.ToString(), values[i] == null ? (object)DBNull.Value : values[i]);
                 command.Parameters.Add(p);
             }
             command.CommandText = query;
@@ -114,7 +113,7 @@ namespace HS_Aquiles_ERP
                     query += "    " + fields[i] + " = " + "@p" + i.ToString() + ",\n";
                 else
                     query += "    " + fields[i] + " = " + "@p" + i.ToString() + "\nWHERE " + condition;
-                SqlParameter p = new SqlParameter("@p" + i.ToString(), values[i]);
+                SqlParameter p = new SqlParameter("@p" + i.ToString(), values[i] == null ? (object)DBNull.Value : values[i]);
                 command.Parameters.Add(p);
             }
             command.CommandText = query;
@@ -141,7 +140,7 @@ namespace HS_Aquiles_ERP
             SqlCommand command = new SqlCommand(query, connection);
             for (int i = 0; i < parameters.Length; i++)
             {
-                SqlParameter p = new SqlParameter("@p" + i.ToString(), parameters[i]);
+                SqlParameter p = new SqlParameter("@p" + i.ToString(), parameters[i] == null ? (object)DBNull.Value : parameters[i]);
                 command.Parameters.Add(p);
             }
             connection.Open();
