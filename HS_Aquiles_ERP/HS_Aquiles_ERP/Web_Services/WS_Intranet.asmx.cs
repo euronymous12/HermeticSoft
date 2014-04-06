@@ -28,12 +28,12 @@ namespace HS_Aquiles_ERP.Web_Services
         const string Systems = "Intranet.Systems";
 
         [WebMethod]
-        public void CreateSystems(string Name, string Description, string Controller, string Action)
+        public void CreateSystems(string Name, string Description, string Controller, string Action, string Url, string ImageUrl)
         {
             try
             {
-                string[] fields = { "Name", "Description", "Controller", "Action", "Dropped" };
-                object[] values = { Name, Description, Controller, Action, false };
+                string[] fields = { "Name", "Description", "Controller", "Action", "Url", "ImageUrl", "Dropped" };
+                object[] values = { Name, Description, Controller, Action, Url, ImageUrl, false };
                 crud.Insert(Systems, fields, values, conexionSI);
             }
             catch (Exception ex)
@@ -43,12 +43,12 @@ namespace HS_Aquiles_ERP.Web_Services
         }
 
         [WebMethod]
-        public void UpdateSystems(string Name, string Description, string Controller, string Action, int Id)
+        public void UpdateSystems(string Name, string Description, string Controller, string Action, string Url, string ImageUrl, int Id)
         {
             try
             {
-                string[] fields = { "Name", "Description", "Controller", "Action" };
-                object[] values = { Name, Description, Controller, Action };
+                string[] fields = { "Name", "Description", "Controller", "Action", "Url", "ImageUrl" };
+                object[] values = { Name, Description, Controller, Action, Url, ImageUrl };
                 crud.Update(Systems, fields, values, "Id = " + Id.ToString(), conexionSI);
             }
             catch (Exception ex)
@@ -113,12 +113,12 @@ namespace HS_Aquiles_ERP.Web_Services
         const string SystemOptions = "Intranet.SystemOptions";
 
         [WebMethod]
-        public void CreateSystemOptions(int SystemId, int ParentId, string Name, string Description, string Controller, string Action, string Url, string Area)
+        public void CreateSystemOptions(int SystemId, int ParentId, string Name, string Description, string Controller, string Action, string Url, string ImageUrl, string Area)
         {
             try
             {
-                string[] fields = { "SystemId", "ParentId", "Name", "Description", "Controller", "Action", "Url", "Area", "Dropped" };
-                object[] values = { SystemId, ParentId, Name, Description, Controller, Action, Url, Area, false };
+                string[] fields = { "SystemId", "ParentId", "Name", "Description", "Controller", "Action", "Url", "ImageUrl", "Area", "Dropped" };
+                object[] values = { SystemId, ParentId, Name, Description, Controller, Action, Url, ImageUrl, Area, false };
                 crud.Insert(SystemOptions, fields, values, conexionSI);
             }
             catch (Exception ex)
@@ -128,12 +128,12 @@ namespace HS_Aquiles_ERP.Web_Services
         }
 
         [WebMethod]
-        public void UpdateSystemOptions(int SystemId, int ParentId, string Name, string Description, string Controller, string Action, string Url, string Area, int Id)
+        public void UpdateSystemOptions(int SystemId, int ParentId, string Name, string Description, string Controller, string Action, string Url, string ImageUrl, string Area, int Id)
         {
             try
             {
-                string[] fields = { "SystemId", "ParentId", "Name", "Description", "Controller", "Action", "Url", "Area" };
-                object[] values = { SystemId, ParentId, Name, Description, Controller, Action, Url, Area };
+                string[] fields = { "SystemId", "ParentId", "Name", "Description", "Controller", "Action", "Url", "ImageUrl", "Area" };
+                object[] values = { SystemId, ParentId, Name, Description, Controller, Action, Url, ImageUrl, Area };
                 crud.Update(SystemOptions, fields, values, "Id = " + Id.ToString(), conexionSI);
             }
             catch (Exception ex)
@@ -530,8 +530,27 @@ namespace HS_Aquiles_ERP.Web_Services
             }
         }
 
+        [WebMethod]
+        public DataTable GetSystemOptionsByUser(int UserId, int SystemId)
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                string query = "SELECT o.Id,  \n"
+                   + "	o.ParentId,  \n"
+                   + "	o.Name,  \n"
+                   + "	o.[Url],  \n"
+                   + "	o.ImageUrl \n"
+                   + "FROM Intranet.GetSystemOptionsByUser(" + UserId.ToString() + ", " + SystemId.ToString() + ") o";
+                dt = crud.ExecDT(query, conexionSI);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         #endregion
-
-
     }
 }
