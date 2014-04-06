@@ -2,5 +2,7 @@
 		@* DXCOMMENT: Configure the left panel's treeview *@
 	@Html.DevExpress().TreeView(settings => {
         settings.Name = "LeftTreeView";
+        settings.Images.NodeImage.Width = 40;
+        settings.Styles.NodeImage.Paddings.PaddingLeft = 3;
     }).BindToXML(HttpContext.Current.Server.MapPath("~/App_Data/SideMenu.xml"), "/menu/*").GetHtml()
 </div>
